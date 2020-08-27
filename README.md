@@ -13,17 +13,16 @@ ConstraintLayout 的 onmeasure 方法竟然高达 49ms。这在生产环境明�
 
 那为啥 google 还力推 ConstraintLayout，而且主打 ConstraintLayout 的性能呢？这就是最有趣的地方了，上面的实验中我的做法是冷启动app，然后观察日志。下面我在不杀掉应用的情况下，再次开启包含 ConstraintLayout 的页面，并且重复这个操作，我们再看一下 日志，：
 
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 48
-> 
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 15
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 14
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 12
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 8
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 7
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 9
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 5
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 4
-> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 3
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 48  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 15  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 14  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 12  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 8  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 7  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 9  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 5  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 4  
+> 26456-26456/com.examples.constraintlayouttest I/sss_ttt_ddd: time: 3  
 
 我们发现 onmeasure 方法的耗时虽然有些波动，但是整体趋势竟然是逐步降低的，这就怪了，难道是 ConstraintLayout 缓存了一些计算数据？所以才导致多次开启 ConstraintLayout 会有优化效果？我们再做一个实验：冷启动两次，第一次启动应用后，开启A 界面，然后退出，开启B界面，然后第二次启动应用，这次先开启B 界面，然后再开启 A界面。分别记录两次冷启动后操作的数据。直接看数据：
 
